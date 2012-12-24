@@ -1389,6 +1389,8 @@ static pid_t spawn_process(struct mg_connection *conn, const char *prog,
       (void) dup2(fd_stdout, 2);
       (void) close(fd_stdin);
       (void) close(fd_stdout);
+      // restore the signals for child processes
+      (void) signal(SIGCHLD, SIG_DFL);
 
       interp = conn->ctx->config[CGI_INTERPRETER];
       if (interp == NULL) {
